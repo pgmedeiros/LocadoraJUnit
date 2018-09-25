@@ -23,12 +23,13 @@ public class Cliente {
 		if(nome==null){
 			throw new ClienteException("Nome é um campo obrigatório");
 		}
-		if (nome.length()<=4 && nome.length()<55){
+		if (nome.length()<4 && nome.length()>55){
 			throw new ClienteException("O nome do cliente deve possuir entre 4 e 55 caracteres");
 		}
 		if(!nome.matches("[a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃçÇ ]+")){
 			throw new ClienteException("Números e símbolos não são permitidos");
 		}
+                this.nome=nome;
 	}
 
 	@Override
