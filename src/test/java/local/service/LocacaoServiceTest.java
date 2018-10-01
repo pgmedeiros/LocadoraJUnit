@@ -8,7 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import local.model.Locacao;
+import local.util.DataUtils;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -75,6 +78,29 @@ public class LocacaoServiceTest {
         //Processamento
 
         //Validação
+    }
+    @Test
+    public void verificaDataEntrega() throws LocadoraException {
+        //TODO: Deve entregar o filme sempre no dia posterior a retirada
+        LocacaoService ls = new LocacaoService();
+
+        Locacao locacao = ls.alugarFilme(cliente,Arrays.asList(filmes.get(0),filmes.get(1)));
+
+        Date data = locacao.getDataRetorno();
+
+        assertTrue(DataUtils.isMesmaData(data,DataUtils.obterDataComDiferencaDias(1)));
+
+    }
+    
+    @Test
+    public void devePagar75PorCentoNoFilme() throws FilmeSemEstoqueException, LocadoraException{
+        LocacaoService loc = new LocacaoService();
+        
+        //não precisa instanciar o cliente pois já esta lá em cima
+        Locacao locacao = loc.alugarFilme(cliente, Arrays.asList(filmes.get(0),filmes.get(1),filmes.get(2)));
+        
+        assertThat(locacao.getValor(), is(11.0));
+        
     }
 
 }
